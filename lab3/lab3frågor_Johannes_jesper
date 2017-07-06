@@ -1,0 +1,71 @@
+1. 
+
+a.b.c.d/x	223.1.17/24
+s1 = 63
+s2 = 95
+s3 = 16
+
+s1-> x = 2^6=64 -> 32-6 = 26
+s2-> x = 2^7= 128 -> 32-7 = 25
+s3-> x = 2^4 = 16 -> 32-4 = 28
+
+s1 prefix = 223.1.17.0/26
+s2 prefix = 223.1.17.128/25
+s3 prefix = 223.1.17.64/28
+
+
+---------------------------------------------------------------
+2. 
+
+p = 3500 bytes		IP-header = 20 bytes
+MTU = 1024
+
+p - IPheader = 3480 bytes
+Fragment(data)size = MTU - IPheader = 1004.
+
+Fragment(data)size must be even divided with 8, so 1004 rounded down = 1000 bytes.
+
+1000 |Offset = 0
+1000 | -||-  = 125  
+1000 | -||-  = 250
+480  | -||-  = 375
+-----
+=3480.
+
+Fragment tabel=
+IP HEADER = 20 bytes.
+-----------------------------------------------------
+Fragment #   |	Bytes(data)| ID	  | offset  | flag  |
+	1	1000	      x        0	1
+	2	1000	      x       125	1
+	3	1000	      x       250	1
+	4	480	      x       375	0
+-----------------------------------------------------
+If we want to account for the IP header aswell fragmented packet size for 1-3 will be of size 1020 and packet 4 will be of size 500. 
+
+---------------------------------------------------------------
+3. 
+
+2^m		m = 5
+2^5 = 32
+Prob = 1/32
+Prob = 0,03125
+prob = 0,03125 * 100
+Prop = 3,125%
+
+Delay = k * 512 bit times
+delay = 4 * 512 bit times = 2048 bit times.
+
+microsec = delay / bandwith = 2048/100 = 20,48 microsec
+
+---------------------------------------------------------------
+4.
+
+When host A wants to send a datagram to a host on a other subnet. When the Link-layer recives the frame from the network layer and checks the destination IP adress towards its own ARP table. It then sees that the destination is outside of the subnet and grabs the MAC adress of the gateway/router interface connected to LAN1. It encapsulates the datagram and sets the MAC adress of the gateway as destination and sends the packet out on the LAN. When this packet is recived by the gateway/router its link-layer adapter sees that this packet is ment for it and 
+decapsulate the packet and sends it up to the network layer. The datagram is now at the network layer in the gateway/router. It checks the packet destination adress and sees that the packet's final destination is on another subnet it does this by checking its IP routering table. This means that when the packet is now passed down to the link-layer adapter checks its ARP tabel for the MAC adress of the next router, grabs the next routers MAC adress and capsluates the link-layer frame and sends it out on LAN2. When this frame is recived on router 2's interface the link-layer adapter sees that the packet is intended for it and decapsulates the packet and sends it up the its network-layer. Here at the 2nd routers network-layer it checks its routing/IP table for the routing path for the desitnation IP adress. It now gets a hit that the destination IP adress is on its own subnet on LAN3. The network layer passes down the packet to the link-layer who then checks its ARP tabel and finds a MAC match for the desintation IP(Host F). It capsulates the packet with its link-layer frame and this time the MAC adress for its destination is acculy the final destinations MAC adress(Host F). The packet is then recived at host F's link-layer. It sees that its intended for it, decapsulates the packet and sends it up to the network-layer.
+
+If host A's ARP table would be empty when we try to send the datagram from host A to host B.
+Before the datagram is passed down to the link-layer the network-layer has checked its routing tabel and sees no match in the subnet and "says" that the datagram has to be sent to its router/(default)gateway and passes this down to the link-layer who then checks its own local ARP tabel for the router/gateway MAC adress. And since the ARP tabel is empty the link-layer adapter broadcasts an ARP query/request on the subnet on MAC adress FF-FF-FF-FF-FF-FF.
+every host on the subnet/LAN receives the ARP request and checks for a match to its own IP address. If a host does not find a match, it discards the ARP request. Router 1 determines that the IP address in the ARP request matches its own IP address and adds Host A to its local ARP cache if its not already present in router 1's ARP table.Router 1 then sends an ARP reply message containing its hardware address directly back to Host A. When Host A receives the ARP reply message from the router, it updates its ARP table for Router 1.
+When the ARP table has been updated the packet is then sent over the LAN directly to router 1 and the rest of the way is described above in the initial question.
+-------------------------------------------------------------------------

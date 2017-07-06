@@ -1,0 +1,80 @@
+---R16---
+
+Processing, queueing, transmission and propogation. 
+
+d(nodal) = d(proc) + d(queue) + d(trans) + d(prop)
+
+d(proc) is constant
+d(queue) is variable
+d(trans) is constant
+d(prop) is constant
+
+---R18---
+
+d(prop) = d/s 
+where d: length of physical link(meter)
+and s: propogation speed (m/sec)
+
+d = 2500 * 10^3 m
+s = 2.5 * 10^8 m/s 
+
+d(trans) = L/R 
+where L = packet length(bits)
+and R: link bandwidth(bps)
+
+R = 2 * 10^6 bps
+L = 8000 bits
+
+d(prop) = (2500 * 10^3) / (2.5 * 10^8) = 0.01 s 
+The propogation speed is 10 msec
+
+It does not depend on packet length or transmission rate since they are used
+to calclutate d(trans) not d(prop). 
+
+---R19---
+
+Host A - Host B 
+R1 = 500 * 10^3 bps
+R2 = 2 * 10^6 bps
+R3 = 1 * 10^6 bps
+
+a) R1
+b) 32 000 000 / (500 * 10^3) = 64s 
+c) R2 = 100 * 10^3 bps
+   R2 will be the throughput
+   32 000 000 / (100 * 10^3) = 320 s 
+   5 times as big. 
+
+---R24--- 
+
+Application-layer message: data to send as message via transport layer
+Transport-layer segment: Encapsulate the application-layer message with transport header
+Network-layer datagram: Encapsulate the transport-layer message with network header
+Link-layer frame. Encapsulate the network-layer message with link header
+
+---R28---
+
+d(prop) = d/s
+d = 36000 * 10^3 m 
+s = 2.4 * 10^8 m/sec
+
+d(prop) = (36000 * 10^3) / (2.4 * 10^8) = 0.15 s
+
+a) 0.15 sec
+
+R = 10 * 10^6 bps
+
+(10 * 10^6) * 0.15 = 1500000 
+
+b) 1500000 bits
+
+d(trans) = L/R 
+
+L = x 
+R = 10 * 10^6 bps
+
+d(trans) = 60 sec (since satellite takes a digital photo every minute to send to base station)
+
+x = 60 * (10 * 10^6) = 600 000 000 
+ 
+c) 600 000 000 bits
